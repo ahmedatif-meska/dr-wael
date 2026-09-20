@@ -29,20 +29,14 @@
   })();
   body.dataset.webgl = webglWanted ? "on" : "off";
 
-  /* ---------- Smooth scroll ---------- */
-  let lenis = null;
-  if (!reduced && !RENDER && typeof Lenis !== "undefined" && hasGsap) {
-    lenis = new Lenis({ lerp: 0.16, wheelMultiplier: 1.1, smoothWheel: true, syncTouch: false });
-    window.__lenis = lenis;
-    lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add((t) => lenis.raf(t * 1000));
-    gsap.ticker.lagSmoothing(0);
-    $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => {
-      const id = a.getAttribute("href"); if (id.length < 2) return;
-      const target = $(id); if (!target) return;
-      e.preventDefault(); lenis.scrollTo(target, { offset: -60 }); closeNav();
-    }));
-  }
+  /* ---------- Anchor navigation (native scroll; no smooth-scroll library) ---------- */
+  $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => {
+    const id = a.getAttribute("href"); if (id.length < 2) return;
+    const target = $(id); if (!target) return;
+    e.preventDefault(); closeNav();
+    const top = target.getBoundingClientRect().top + window.scrollY - 60;
+    window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+  }));
 
   /* ---------- Nav ---------- */
   const navToggle = $("#nav-toggle"), navLinks = $("#nav-links");
@@ -162,6 +156,7 @@
   /* ---------- Intro ---------- */
   function intro() {
     body.classList.add("is-ready");
+    setTimeout(() => { const v = $(".intro-veil"); v && v.remove(); }, 1000);
     const lines = $$(".hero-title .li");
     const stats = $$(".hero-stats .num");
     if (!hasGsap || reduced) { stats.forEach((n) => countUp(n)); return null; }
@@ -208,7 +203,7 @@
     gsap.to(track, {
       x: () => -dist(), ease: "none",
       scrollTrigger: {
-        trigger: pin, start: "top top", end: () => "+=" + (dist() + window.innerHeight * 0.6), pin: true, scrub: RENDER ? true : 0.6, invalidateOnRefresh: true, anticipatePin: 1,
+        trigger: pin, start: "top top", end: () => "+=" + (dist() + window.innerHeight * 0.6), pin: true, scrub: RENDER ? true : 0.25, invalidateOnRefresh: true, anticipatePin: 1,
         onUpdate: (st) => {
           const pr = st.progress;
           prog.style.setProperty("--p", (pr * 100).toFixed(1) + "%");

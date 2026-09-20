@@ -36,7 +36,7 @@ export function mount(THREE, canvas, { count = 7 } = {}) {
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, count * SPACING + 40), floorMat);
   floor.rotation.x = -Math.PI / 2; floor.position.z = -(count * SPACING) / 2;
   scene.add(floor);
-  const grid = new THREE.GridHelper(count * SPACING + 40, 60, 0x2a2f38, 0x1a1e25);
+  const grid = new THREE.GridHelper(count * SPACING + 40, 40, 0x2a2f38, 0x1a1e25);
   grid.position.set(0, 0.01, -(count * SPACING) / 2);
   scene.add(grid);
 

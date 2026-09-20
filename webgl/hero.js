@@ -13,7 +13,7 @@ export function mount(THREE, canvas, { reduced } = {}) {
   camera.position.set(0, 2.8, 11);
   camera.lookAt(0, 1.6, 0);
 
-  const COLS = 28, ROWS = 10, GAP = 1.15;
+  const COLS = 24, ROWS = 8, GAP = 1.2;
   const count = COLS * ROWS;
   const geo = new THREE.BoxGeometry(0.82, 1, 0.82);
   geo.translate(0, 0.5, 0);
