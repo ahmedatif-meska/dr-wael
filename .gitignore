@@ -1,0 +1,5 @@
+node_modules/
+render/frames/
+render/raw/
+render/shots/
+.env

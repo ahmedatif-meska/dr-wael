@@ -1,0 +1,89 @@
+{
+  "identity": {
+    "name": "Dr. Wael Samir",
+    "title": "Strategic Financial Expert & Business Consultant",
+    "credentials": ["DBA", "MBA", "CMA"],
+    "role": "Founder & CEO, WSFA Financial Advisory",
+    "summary": "25+ years of experience in financial and managerial accounting, finance HUB projects, and external auditing. A trusted advisor and educator in the financial industry.",
+    "claim": "Turning financial complexity into strategic clarity.",
+    "location": "Egypt",
+    "whatsapp": "201226270170",
+    "whatsappDisplay": "+20 12 2627 0170"
+  },
+  "company": {
+    "name": "WSFA Financial Advisory",
+    "founded": "January 2022",
+    "description": "WSFA Financial Advisory delivers expert financial consultation and training, leveraging Wael's extensive cross-industry experience to serve clients with precision and strategic insight."
+  },
+  "pillars": [
+    { "id": "consultation", "title": "Financial Consultation", "line": "Strategic advisory across industries", "cta": "Book an advisory call" },
+    { "id": "training", "title": "Training & Development", "line": "Finance courses and professional workshops", "cta": "Ask about a workshop" }
+  ],
+  "impact": [
+    { "value": 27, "suffix": "", "label": "Years of experience", "detail": "In financial and managerial accounting, auditing, and finance leadership" },
+    { "value": 15, "suffix": "+", "label": "Years of training", "detail": "Conducting CMA programs and finance workshops" },
+    { "value": 17, "suffix": "+", "label": "Senior roles", "detail": "Across multinational and local organizations including KPMG, MSD, UCP, and more" },
+    { "value": 4, "suffix": "", "label": "Academic credentials", "detail": "DBA, MBA, CMA, and Bachelor of Commerce" }
+  ],
+  "journey": [
+    { "step": 1, "years": "1997–2001", "start": 1997, "end": 2001, "org": "KPMG", "role": "External audit, internal controls, risk assessments", "caseStudy": null },
+    { "step": 2, "years": "2002–2012", "start": 2002, "end": 2012, "org": "Givaudan Egypt", "role": "Accounting & Financial Compliance Officer", "caseStudy": null },
+    { "step": 3, "years": "2009", "start": 2009, "end": 2009, "org": "GB Auto", "role": "Head of General Accounting", "caseStudy": null },
+    { "step": 4, "years": "2012–2017", "start": 2012, "end": 2017, "org": "MSD", "role": "Finance Hub Lead", "caseStudy": null },
+    { "step": 5, "years": "2017–2018", "start": 2017, "end": 2018, "org": "UCP", "role": "Chief Financial Officer", "caseStudy": null },
+    { "step": 6, "years": "2019–2021", "start": 2019, "end": 2021, "org": "Consulting", "role": "Toshiba Arabi Group — Financial Consultant · Jewelry of Egypt — FP&G Director", "caseStudy": null },
+    { "step": 7, "years": "2022–Present", "start": 2022, "end": null, "org": "WSFA Financial Advisory", "role": "Founder & CEO", "caseStudy": null }
+  ],
+  "expertise": [
+    { "id": "audit", "title": "External Audit", "detail": "Extensive experience conducting external audits for diverse organizations", "links": ["controls", "governance"] },
+    { "id": "plans", "title": "Business Plans & Feasibility Studies", "detail": "Skilled in developing comprehensive business plans and conducting feasibility studies", "links": ["cash", "cost"] },
+    { "id": "cash", "title": "Cash Management", "detail": "Expert in managing cash flow and optimizing financial resources", "links": ["cost", "mcs"] },
+    { "id": "cost", "title": "Cost Management & Profitability Analysis", "detail": "Proficient in analyzing costs and developing strategies for improved profitability", "links": ["mcs", "plans"] },
+    { "id": "governance", "title": "Corporate Governance", "detail": "Expert in implementing and maintaining strong governance structures across organizations", "links": ["controls", "mcs"] },
+    { "id": "controls", "title": "Internal Controls", "detail": "Skilled in designing and evaluating internal control systems to ensure operational efficiency and compliance", "links": ["audit", "governance"] },
+    { "id": "mcs", "title": "Management Control Systems", "detail": "Experienced in developing and implementing effective management control systems", "links": ["governance", "cost"] }
+  ],
+  "training": {
+    "intro": "15+ years conducting training programs and delivering finance-related courses and workshops across leading institutions.",
+    "institutions": [
+      { "name": "ESLSCA Business School", "line": "Public and corporate finance workshops" },
+      { "name": "American Chamber of Commerce", "line": "Professional finance workshops" },
+      { "name": "IPA, Campus and OGS", "line": "CMA & FMAA certification" },
+      { "name": "AUC Venture Lab", "line": "Startups accelerator program, CFO Mindset" }
+    ]
+  },
+  "education": [
+    { "short": "DBA", "year": "May 2026", "title": "Doctorate of Business Administration", "institution": "AAST" },
+    { "short": "MBA", "year": "2023", "title": "Master of Business Administration", "institution": "AAST" },
+    { "short": "CMA", "year": "October 2007", "title": "Certified Management Accountant", "institution": "AICMA, N.J., USA · Cert. No. 29277" },
+    { "short": "B.Com", "year": "1997", "title": "Bachelor of Commerce, Major in Accountancy", "institution": "Cairo University" }
+  ],
+  "clients": {
+    "intro": "WSFA Financial Advisory has proudly partnered with a diverse range of clients across various industries, from innovative startups to established corporations. Our expertise empowers businesses to navigate complex financial landscapes, achieve strategic objectives, and foster sustainable growth.",
+    "outro": "Our collaborative approach ensures that each client receives tailored financial solutions designed to meet their unique challenges and capitalize on their specific opportunities.",
+    "logos": [
+      { "file": "banque-misr.png", "name": "Banque Misr" },
+      { "file": "petrojet.png", "name": "Petrojet" },
+      { "file": "auc-school-of-business.png", "name": "The American University in Cairo — School of Business" },
+      { "file": "eslsca.png", "name": "ESLSCA Business School Paris" },
+      { "file": "elsewedy-electric.png", "name": "Elsewedy Electric" },
+      { "file": "orange.png", "name": "Orange" },
+      { "file": "igi-developments.png", "name": "IGI Developments" },
+      { "file": "butchers-burger.png", "name": "Butcher's Burger" },
+      { "file": "tharaa.png", "name": "Tharaa" },
+      { "file": "sigma-fit.png", "name": "Sigma Fit" },
+      { "file": "orthohouse.png", "name": "Orthohouse" },
+      { "file": "jazeel.png", "name": "Jazeel" },
+      { "file": "jevan.png", "name": "Jevan" },
+      { "file": "english-capsules.png", "name": "English Capsules" },
+      { "file": "sigma-import-export.png", "name": "Sigma Import & Export" },
+      { "file": "kerma-farms.png", "name": "Kerma Farms" },
+      { "file": "hi-academy.png", "name": "Hi Academy" },
+      { "file": "akkaken.png", "name": "Akkaken" },
+      { "file": "khawater.png", "name": "Khawater" },
+      { "file": "enterprise-am.png", "name": "Enterprise AM" },
+      { "file": "auc-venture-lab.png", "name": "AUC Venture Lab" },
+      { "file": "asset.png", "name": "Asset" }
+    ]
+  }
+}
