@@ -281,6 +281,13 @@ body[data-webgl="on"] .node.is-active .d { display: block; }
 .node-detail .t { font-weight: 600; display: block; }
 .node-detail .d { color: var(--muted); margin-top: .3rem; display: block; }
 @media (max-width: 960px) { .expertise-layout { grid-template-columns: 1fr; } .network { min-height: 0; } body[data-webgl="on"] .network { min-height: 520px; } }
+@media (max-width: 760px) {
+  body[data-webgl="on"] .network { min-height: min(72vh, 560px); }
+  body[data-webgl="on"] .network-list li { max-width: 150px; }
+  body[data-webgl="on"] .node { padding: .5rem .65rem; }
+  body[data-webgl="on"] .node .t { font-size: .78rem; }
+  body[data-webgl="on"] .node.is-active .d { display: none; }
+}
 @media (max-width: 560px) { .network-list { grid-template-columns: 1fr; } }
 
 /* ---------- Training ---------- */
@@ -352,6 +359,7 @@ body[data-webgl="on"] .node.is-active .d { display: block; }
 /* ---------- Sticky CTA ---------- */
 .sticky-cta { position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 190; background: var(--copper); color: #1A1207; font-weight: 600; text-decoration: none; padding: .8rem 1.2rem; border-radius: 999px; box-shadow: 0 12px 30px rgba(0,0,0,.4); transform: translateY(120%); opacity: 0; transition: transform .4s cubic-bezier(.2,.7,.2,1), opacity .4s; }
 .sticky-cta.is-visible { transform: translateY(0); opacity: 1; }
+@media (max-width: 600px) { .sticky-cta { right: 50%; transform: translate(50%, 120%); bottom: .9rem; padding: .6rem 1rem; font-size: .88rem; } .sticky-cta.is-visible { transform: translate(50%, 0); } }
 
 /* ---------- Reveal states (GSAP) ---------- */
 .reveal { opacity: 0; transform: translateY(24px); }

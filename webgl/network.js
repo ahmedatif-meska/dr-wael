@@ -12,13 +12,20 @@ export function mount(THREE, canvas, { list } = {}) {
   const items = [...list.querySelectorAll("li")];
   const ids = items.map((li) => li.dataset.id);
   const n = ids.length;
-  // Ordered layout: a tilted hexagonal ring with the governance node near the centre.
-  const ordered = ids.map((id, i) => {
-    if (id === "governance") return new THREE.Vector3(0, 0.2, 0);
-    const k = ids.filter((x) => x !== "governance").indexOf(id);
-    const a = (k / (n - 1)) * Math.PI * 2 - Math.PI / 2;
-    return new THREE.Vector3(Math.cos(a) * 5.4, Math.sin(a) * 3.3, Math.sin(a * 2) * 0.6);
-  });
+  // Ordered layout: a ring with the governance node near the centre, sized to the visible frustum
+  // so it fits portrait phones as well as wide screens.
+  const ordered = ids.map(() => new THREE.Vector3());
+  const angles = ids.map((id) => { if (id === "governance") return null; const k = ids.filter((x) => x !== "governance").indexOf(id); return (k / (n - 1)) * Math.PI * 2 - Math.PI / 2; });
+  function layout() {
+    const halfH = Math.tan((camera.fov / 2) * Math.PI / 180) * camera.position.z;
+    const halfW = halfH * camera.aspect;
+    const rx = Math.min(5.4, halfW * 0.66), ry = Math.min(3.3, halfH * 0.62);
+    ids.forEach((id, i) => {
+      const a = angles[i];
+      if (a === null) ordered[i].set(0, 0.2, 0);
+      else ordered[i].set(Math.cos(a) * rx, Math.sin(a) * ry, Math.sin(a * 2) * 0.6);
+    });
+  }
   const scatter = ordered.map((v, i) => new THREE.Vector3((Math.sin(i * 12.9) * 6), (Math.cos(i * 7.3) * 4), (Math.sin(i * 3.1) * 5)));
   const pos = scatter.map((v) => v.clone());
 
@@ -64,6 +71,7 @@ export function mount(THREE, canvas, { list } = {}) {
     const w = canvas.clientWidth || 600, h = canvas.clientHeight || 560;
     renderer.setSize(w, h, false);
     camera.aspect = w / h; camera.updateProjectionMatrix();
+    layout();
   }
   const ro = new ResizeObserver(resize); ro.observe(canvas); resize();
 
@@ -86,7 +94,9 @@ export function mount(THREE, canvas, { list } = {}) {
       // Project to screen and place the HTML node over it.
       tmp.copy(pos[i]).project(camera);
       const above = ordered[i].y > 0.5;
-      items[i].style.left = ((tmp.x + 1) / 2 * w) + "px";
+      const lw = items[i].offsetWidth || 160;
+      const x = Math.min(w - lw / 2 - 4, Math.max(lw / 2 + 4, (tmp.x + 1) / 2 * w));
+      items[i].style.left = x + "px";
       items[i].style.top = ((1 - tmp.y) / 2 * h + (above ? -40 : 40)) + "px";
       items[i].style.transform = above ? "translate(-50%, -100%)" : "translate(-50%, 0)";
     }
