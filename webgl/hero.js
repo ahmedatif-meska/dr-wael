@@ -2,7 +2,7 @@
 // lit by a copper key light. Instanced, no shadows, DPR-capped.
 export function mount(THREE, canvas, { reduced } = {}) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(window.__renderMode ? 1 : Math.min(devicePixelRatio, 1.5));
+  renderer.setPixelRatio(window.__renderMode ? 1 : Math.min(devicePixelRatio, 1.25));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.1;

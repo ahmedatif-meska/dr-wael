@@ -32,7 +32,7 @@
   /* ---------- Smooth scroll ---------- */
   let lenis = null;
   if (!reduced && !RENDER && typeof Lenis !== "undefined" && hasGsap) {
-    lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+    lenis = new Lenis({ lerp: 0.16, wheelMultiplier: 1.1, smoothWheel: true, syncTouch: false });
     window.__lenis = lenis;
     lenis.on("scroll", ScrollTrigger.update);
     gsap.ticker.add((t) => lenis.raf(t * 1000));
@@ -141,8 +141,14 @@
   function renderClients(p) {
     $("#clients-intro").textContent = p.clients.intro;
     $("#clients-outro").textContent = p.clients.outro;
-    const grid = $("#logo-grid");
-    p.clients.logos.forEach((l) => grid.append(el("li", "reveal", `<img src="assets/clients/${esc(l.file)}" alt="${esc(l.name)}" loading="lazy" decoding="async">`)));
+    const wrap = $("#logo-marquee");
+    const half = Math.ceil(p.clients.logos.length / 2);
+    [p.clients.logos.slice(0, half), p.clients.logos.slice(half)].forEach((row, r) => {
+      const track = el("div", "logo-row" + (r ? " logo-row-rev" : ""));
+      const tile = (l, dup) => `<li${dup ? ' aria-hidden="true"' : ""}><img src="assets/clients/${esc(l.file)}" alt="${dup ? "" : esc(l.name)}" loading="lazy" decoding="async"></li>`;
+      track.innerHTML = `<ul class="logo-set">${row.map((l) => tile(l, false)).join("")}</ul><ul class="logo-set" aria-hidden="true">${row.map((l) => tile(l, true)).join("")}</ul>`;
+      wrap.append(track);
+    });
   }
 
   /* ---------- Counters ---------- */

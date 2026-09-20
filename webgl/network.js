@@ -2,7 +2,7 @@
 // The HTML list items are positioned over the projected nodes so they stay accessible.
 export function mount(THREE, canvas, { list } = {}) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(window.__renderMode ? 1 : Math.min(devicePixelRatio, 1.5));
+  renderer.setPixelRatio(window.__renderMode ? 1 : Math.min(devicePixelRatio, 1.25));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   const scene = new THREE.Scene();

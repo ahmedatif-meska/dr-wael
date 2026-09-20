@@ -1,7 +1,7 @@
 // Journey — a corridor of seven illuminated gates; scroll progress moves the camera through them.
 export function mount(THREE, canvas, { count = 7 } = {}) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
-  renderer.setPixelRatio(window.__renderMode ? 1 : Math.min(devicePixelRatio, 1.5));
+  renderer.setPixelRatio(window.__renderMode ? 1 : Math.min(devicePixelRatio, 1.25));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
