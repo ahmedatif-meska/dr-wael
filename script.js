@@ -29,6 +29,12 @@
   })();
   body.dataset.webgl = webglWanted ? "on" : "off";
 
+  /* ---------- Lock the mobile viewport scale (iOS Safari ignores user-scalable=no) ---------- */
+  ["gesturestart", "gesturechange", "gestureend"].forEach((ev) => document.addEventListener(ev, (e) => e.preventDefault(), { passive: false }));
+  let lastTouchEnd = 0;
+  document.addEventListener("touchend", (e) => { const now = Date.now(); if (now - lastTouchEnd < 300 && e.target.closest("a, button, input, textarea, select, label") === null) e.preventDefault(); lastTouchEnd = now; }, { passive: false });
+  document.addEventListener("wheel", (e) => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
+
   /* ---------- Anchor navigation (native scroll; no smooth-scroll library) ---------- */
   $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => {
     const id = a.getAttribute("href"); if (id.length < 2) return;
@@ -117,6 +123,7 @@
       if (x) { $(".t", detail).textContent = x.title; $(".d", detail).textContent = x.detail; }
       window.__networkActivate && window.__networkActivate(id);
     };
+    window.__networkPick = (id) => { activate(id); const b = nodes.find((x) => x.dataset.id === id); b && b.focus({ preventScroll: true }); };
     nodes.forEach((n) => {
       n.addEventListener("click", () => activate(n.dataset.id));
       n.addEventListener("focus", () => activate(n.dataset.id));
@@ -268,11 +275,11 @@
     try {
       const THREE = await import("https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js");
       const [hero, journey, network] = await Promise.all([import("./webgl/hero.js"), import("./webgl/journey.js"), import("./webgl/network.js")]);
-      const mount = (mod, canvas, opts) => {
+      const mount = (mod, canvas, opts, onMount) => {
         let inst = null;
         const io = new IntersectionObserver((e) => {
           const on = e[0].isIntersecting;
-          if (on && !inst) inst = mod.mount(THREE, canvas, opts);
+          if (on && !inst) { inst = mod.mount(THREE, canvas, opts); onMount && onMount(inst); }
           if (inst) inst.setActive(on);
         }, { rootMargin: "100px 0px" });
         io.observe(canvas.closest("section") || canvas);
@@ -281,7 +288,7 @@
       mount(hero, $("#hero-canvas"), { reduced });
       const j = mount(journey, $("#journey-canvas"), { count: 7 });
       window.__journeyProgress = (p) => { const i = j(); i && i.setProgress(p); };
-      const n = mount(network, $("#network-canvas"), { list: $("#network-list") });
+      const n = mount(network, $("#network-canvas"), { list: $("#network-list") }, (inst) => inst.onPick((id) => window.__networkPick && window.__networkPick(id)));
       window.__networkActivate = (id) => { const i = n(); i && i.setActive(true) && i.highlight(id); };
       if (window.__journeyProgress && hasGsap) ScrollTrigger.refresh();
     } catch (err) {

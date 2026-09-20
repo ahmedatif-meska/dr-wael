@@ -64,8 +64,27 @@ export function mount(THREE, canvas, { list } = {}) {
   const key = new THREE.PointLight(0xe0b27a, 50, 40, 1.4); key.position.set(5, 4, 8); scene.add(key);
   const fill = new THREE.PointLight(0x1d3557, 20, 40, 1.6); fill.position.set(-6, -3, 6); scene.add(fill);
 
-  let active = false, raf = 0, order = 0, t0 = performance.now(), highlighted = -1;
+  let active = false, raf = 0, order = 0, t0 = performance.now(), highlighted = -1, onPick = null;
   const m4 = new THREE.Matrix4(), tmp = new THREE.Vector3();
+
+  // Clicking/tapping a 3D node behaves exactly like clicking its label.
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  ray.params.Mesh = { threshold: 0.6 };
+  const pick = (e) => {
+    const r = canvas.getBoundingClientRect();
+    ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    // Test against enlarged hit spheres so small nodes are easy to tap.
+    let best = -1, bestD = Infinity;
+    for (let i = 0; i < n; i++) {
+      const d = ray.ray.distanceToPoint(pos[i]);
+      if (d < 0.9 && d < bestD) { bestD = d; best = i; }
+    }
+    return best;
+  };
+  canvas.style.pointerEvents = "auto";
+  canvas.addEventListener("pointermove", (e) => { canvas.style.cursor = pick(e) >= 0 ? "pointer" : ""; });
+  canvas.addEventListener("click", (e) => { const i = pick(e); if (i >= 0 && onPick) onPick(ids[i]); });
 
   function resize() {
     const w = canvas.clientWidth || 600, h = canvas.clientHeight || 560;
@@ -119,6 +138,7 @@ export function mount(THREE, canvas, { list } = {}) {
 
   return {
     highlight(id) { highlighted = ids.indexOf(id); },
+    onPick(cb) { onPick = cb; },
     setActive(on) { if (on === active) return true; active = on; if (on) raf = requestAnimationFrame(frame); else cancelAnimationFrame(raf); return true; },
     destroy() { active = false; cancelAnimationFrame(raf); ro.disconnect(); renderer.dispose(); nodeGeo.dispose(); ringGeo.dispose(); lineGeo.dispose(); latGeo.dispose(); },
   };
