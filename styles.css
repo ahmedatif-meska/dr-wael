@@ -211,7 +211,7 @@ body[data-webgl="on"] .hero-fallback { display: none; }
 
 /* ---------- Journey (pinned) ---------- */
 .journey { position: relative; }
-.journey-pin { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; overflow: hidden; padding: calc(var(--nav-h) + 1rem) 0 2rem; }
+.journey-pin { position: relative; min-height: 88vh; display: flex; align-items: center; overflow: hidden; padding: clamp(5rem, 10vw, 8rem) 0; }
 .journey-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 body[data-webgl="off"] .journey-canvas, body[data-webgl="pending"] .journey-canvas { display: none; }
 body[data-webgl="on"] .journey-fallback { display: none; }
@@ -222,8 +222,22 @@ body[data-webgl="on"] .journey-fallback { display: none; }
 
 .journey-layout { position: relative; z-index: 1; width: 100%; }
 .journey-head { margin-bottom: 2rem; }
-.journey-track { display: flex; gap: 1.25rem; will-change: transform; }
-.gate { flex: 0 0 min(420px, 82vw); padding: 1.75rem; display: flex; flex-direction: column; gap: .6rem; min-height: 230px; position: relative; }
+.journey-controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+.journey-hint { color: var(--muted); font-size: .9rem; display: flex; align-items: center; gap: .5rem; }
+.journey-hint .hint-icon { color: var(--copper-2); font-size: 1.1rem; }
+.journey-arrows { display: flex; gap: .5rem; }
+.arrow { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--glass-edge-strong); background: rgba(20,23,28,.85); color: var(--text); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: border-color .18s, color .18s, transform .18s; }
+.arrow svg { width: 20px; height: 20px; }
+.arrow:hover, .arrow:focus-visible { border-color: var(--copper); color: var(--copper-2); transform: translateY(-1px); }
+.journey-track {
+  display: flex; gap: 1.25rem; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity; scrollbar-width: none; cursor: grab; padding: .5rem 0 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+.journey-track::-webkit-scrollbar { display: none; }
+.journey-track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+.journey-track.is-dragging .gate { pointer-events: none; }
+.gate { flex: 0 0 min(420px, 82vw); padding: 1.75rem; display: flex; flex-direction: column; gap: .6rem; min-height: 230px; position: relative; scroll-snap-align: start; }
 .gate::before { content: ""; position: absolute; left: 0; top: 1.75rem; bottom: 1.75rem; width: 2px; background: linear-gradient(180deg, var(--copper), transparent); }
 .gate .step { font-family: var(--font-mono); font-size: .78rem; color: var(--copper-2); letter-spacing: .12em; }
 .gate .years { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 1.6rem; color: var(--text); line-height: 1; }
@@ -353,8 +367,7 @@ html.no-js .reveal, html.reduced .reveal { opacity: 1; transform: none; }
   .hero-title .line { overflow: visible; }
   .env-video { display: none; }
   .scroll-cue span { animation: none; }
-  .journey-track { flex-wrap: wrap; }
-  .gate { flex-basis: 100%; }
+  .journey-track { scroll-snap-type: none; }
   .logo-marquee { mask-image: none; -webkit-mask-image: none; }
   .logo-row { animation: none; width: auto; }
   .logo-set { flex-wrap: wrap; padding-right: 0; }

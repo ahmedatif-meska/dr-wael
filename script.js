@@ -145,6 +145,40 @@
     });
   }
 
+  /* ---------- Journey: sideways travel (native horizontal scroll, never hijacks vertical) ---------- */
+  function journey() {
+    const track = $("#journey-track"), yearEl = $("#journey-year"), prog = $(".journey-progress .bar");
+    const gates = $$(".gate", track);
+    const first = Number(gates[0].dataset.start), last = Number(gates[gates.length - 1].dataset.end);
+    const max = () => Math.max(1, track.scrollWidth - track.clientWidth);
+    const update = () => {
+      const pr = Math.min(1, Math.max(0, track.scrollLeft / max()));
+      prog.style.setProperty("--p", (pr * 100).toFixed(1) + "%");
+      const idx = Math.min(gates.length - 1, Math.round(pr * (gates.length - 1)));
+      yearEl.textContent = idx === gates.length - 1 ? "Present" : Math.round(first + (last - first) * pr);
+      gates.forEach((g, i) => g.classList.toggle("is-current", i === idx));
+      window.__journeyProgress && window.__journeyProgress(pr);
+    };
+    track.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+    window.__journeySet = (pr) => { track.scrollLeft = pr * max(); update(); };
+
+    // Drag to travel (mouse); touch already scrolls natively.
+    let down = false, startX = 0, startLeft = 0, moved = false;
+    track.addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse") return; down = true; moved = false; startX = e.clientX; startLeft = track.scrollLeft; track.classList.add("is-dragging"); });
+    window.addEventListener("pointermove", (e) => { if (!down) return; const dx = e.clientX - startX; if (Math.abs(dx) > 3) moved = true; track.scrollLeft = startLeft - dx; });
+    window.addEventListener("pointerup", () => { down = false; track.classList.remove("is-dragging"); });
+    track.addEventListener("click", (e) => { if (moved) e.preventDefault(); }, true);
+
+    // Arrows + keyboard
+    const step = () => (gates[0].getBoundingClientRect().width + 20);
+    const go = (dir) => track.scrollBy({ left: dir * step(), behavior: reduced ? "auto" : "smooth" });
+    $("#journey-prev").addEventListener("click", () => go(-1));
+    $("#journey-next").addEventListener("click", () => go(1));
+    track.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") { go(1); e.preventDefault(); } if (e.key === "ArrowLeft") { go(-1); e.preventDefault(); } });
+  }
+
   /* ---------- Counters ---------- */
   function countUp(node, duration = 1.6) {
     const to = Number(node.dataset.count), suffix = node.dataset.suffix || "";
@@ -194,26 +228,6 @@
     // Hero parallax
     gsap.to(".hero-portrait", { yPercent: 12, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
     gsap.to(".hero-copy", { yPercent: 18, opacity: 0.2, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
-
-    // Journey: pinned horizontal travel
-    const pin = $(".journey-pin"), track = $("#journey-track"), yearEl = $("#journey-year"), prog = $(".journey-progress .bar");
-    const gates = $$(".gate", track);
-    const first = Number(gates[0].dataset.start), last = Number(gates[gates.length - 1].dataset.end);
-    const dist = () => Math.max(0, track.scrollWidth - pin.clientWidth + parseFloat(getComputedStyle(pin).paddingLeft || 0) * 2 + 48);
-    gsap.to(track, {
-      x: () => -dist(), ease: "none",
-      scrollTrigger: {
-        trigger: pin, start: "top top", end: () => "+=" + (dist() + window.innerHeight * 0.6), pin: true, scrub: RENDER ? true : 0.25, invalidateOnRefresh: true, anticipatePin: 1,
-        onUpdate: (st) => {
-          const pr = st.progress;
-          prog.style.setProperty("--p", (pr * 100).toFixed(1) + "%");
-          yearEl.textContent = Math.round(first + (last - first) * pr);
-          const idx = Math.min(gates.length - 1, Math.floor(pr * gates.length));
-          gates.forEach((g, i) => g.classList.toggle("is-current", i === idx));
-          window.__journeyProgress && window.__journeyProgress(pr);
-        },
-      },
-    });
 
     // Sticky CTA + active nav
     const cta = $("#sticky-cta");
@@ -313,6 +327,7 @@
     const p = await loadProfile();
     renderPillars(p); renderImpact(p); renderJourney(p); renderExperience(p); renderExpertise(p); renderTraining(p); renderClients(p);
     contact();
+    journey();
     const tl = intro();
     scrollEffects(p);
     videos();

@@ -126,8 +126,15 @@
         <div class="section-head journey-head">
           <p class="eyebrow"><span>Professional journey</span><span class="dot"></span><span>1997 — present</span></p>
           <h2 id="journey-h" class="h2">Seven chapters, one direction.</h2>
+          <div class="journey-controls">
+            <p class="journey-hint"><span class="hint-icon" aria-hidden="true">⇄</span> Drag, swipe or use the arrows to travel through the years</p>
+            <div class="journey-arrows">
+              <button type="button" class="arrow" id="journey-prev" aria-label="Previous chapter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+              <button type="button" class="arrow" id="journey-next" aria-label="Next chapter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+            </div>
+          </div>
         </div>
-        <div class="journey-track" id="journey-track" role="list"></div>
+        <div class="journey-track" id="journey-track" role="list" tabindex="0" aria-label="Career chapters, scroll sideways"></div>
         <div class="journey-progress" aria-hidden="true"><span class="bar"></span><span class="year" id="journey-year">1997</span></div>
       </div>
     </div>

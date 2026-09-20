@@ -41,19 +41,15 @@ for (let i = 0; i <= introSeconds * FPS; i++) {
 }
 
 if (cut === "social") {
-  // Scene B: journey fly-through (5 s) — scroll the pinned section by progress.
-  const st = await page.evaluate(() => {
-    const t = ScrollTrigger.getAll().find((s) => s.vars.pin);
-    return t ? { start: t.start, end: t.end } : null;
-  });
-  if (st) {
-    for (let i = 0; i <= 5 * FPS; i++) {
-      const p = i / (5 * FPS);
-      const e = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
-      await page.evaluate(([s, e]) => { window.scrollTo(0, s.start + (s.end - s.start) * e); ScrollTrigger.update(); }, [st, e]);
-      await page.waitForTimeout(8);
-      await shoot();
-    }
+  // Scene B: journey fly-through (5 s) — bring the section into view, then travel sideways by progress.
+  await page.evaluate(() => { const el = document.querySelector("#journey"); window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 40); ScrollTrigger.update(); });
+  await page.waitForTimeout(600);
+  for (let i = 0; i <= 5 * FPS; i++) {
+    const p = i / (5 * FPS);
+    const e = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
+    await page.evaluate((e) => { window.__journeySet && window.__journeySet(e); }, e);
+    await page.waitForTimeout(8);
+    await shoot();
   }
   // Scene C: client wall + end card (4 s)
   await page.evaluate(() => { const el = document.querySelector("#clients"); window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 80); ScrollTrigger.update(); });
